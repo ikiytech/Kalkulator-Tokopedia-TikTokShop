@@ -221,7 +221,7 @@
 <body>
     <div class="container">
         <div class="shopee-link">
-            <a href="shopee.html">Mau Pindah Ke Kalkulator Shopee?</a>
+            <a href="shopee.html">Kalkulator Shopee?</a>
         </div>
         <h1>Kalkulator Biaya Penjual</h1>
         <p class="info-text">Tokopedia & TikTok Shop <span class="branding-text">by ikiytech</span></p>
@@ -248,12 +248,39 @@
             <h2>Biaya Administrasi & Program Promosi</h2>
             <label for="tokopedia-category">Kategori Produk Tokopedia:</label>
             <select id="tokopedia-category" class="shadow-sm">
-                <option value="elektronik">Elektronik (Biaya Komisi Platform & Dinamis)</option>
-                <option value="fashion">Fashion (Biaya Komisi Platform & Dinamis)</option>
-                <option value="fmcg">FMCG (Biaya Komisi Platform & Dinamis)</option>
-                <option value="gayahidup">Gaya Hidup (Biaya Komisi Platform & Dinamis)</option>
+                <option value="elektronik_phones_electronics">Elektronik - Phones & Electronics (Platform: 4% / Dinamis: 4%)</option>
+                <option value="elektronik_household_appliances">Elektronik - Household Appliances (Platform: 6% / Dinamis: 4%)</option>
+                <option value="elektronik_computers_office">Elektronik - Computers & Office Equipment (Platform: 4% / Dinamis: 4%)</option>
+                <option value="elektronik_automotive_motorcycle">Elektronik - Automotive & Motorcycle (Platform: 8.5% / Dinamis: 5.5%)</option>
+                <option value="elektronik_virtual_products">Elektronik - Virtual Products (Platform: 4% / Dinamis: 4%)</option>
+
+                <option value="fashion_jewelry_accessories">Fashion - Jewelry Accessories & Derivatives (Platform: 6% / Dinamis: 4%)</option>
+                <option value="fashion_shoes">Fashion - Shoes (Platform: 7.5% / Dinamis: 5%)</option>
+                <option value="fashion_menswear_underwear">Fashion - Menswear & Underwear (Platform: 7.5% / Dinamis: 5%)</option>
+                <option value="fashion_womenswear_underwear">Fashion - Womenswear & Underwear (Platform: 7.5% / Dinamis: 5.5%)</option>
+                <option value="fashion_muslim_fashion">Fashion - Muslim Fashion (Platform: 7.5% / Dinamis: 5.5%)</option>
+                <option value="fashion_luggage_bags">Fashion - Luggage & Bags (Platform: 7.5% / Dinamis: 5.5%)</option>
+                <option value="fashion_sports_outdoor">Fashion - Sports & Outdoor (Platform: 7.5% / Dinamis: 6%)</option>
+                <option value="fashion_fashion_accessories">Fashion - Fashion Accessories (Platform: 7.5% / Dinamis: 6%)</option>
+
+                <option value="fmcg_kids_fashion">FMCG - Kids' Fashion (Platform: 4% / Dinamis: 4%)</option>
+                <option value="fmcg_health">FMCG - Health (Platform: 4% / Dinamis: 4%)</option>
+                <option value="fmcg_beauty_personal_care">FMCG - Beauty & Personal Care (Platform: 4% / Dinamis: 4%)</option>
+                <option value="fmcg_baby_maternity">FMCG - Baby & Maternity (Platform: 4% / Dinamis: 4%)</option>
+                <option value="fmcg_food_beverages">FMCG - Food & Beverages (Platform: 8.5% / Dinamis: 5%)</option>
+
+                <option value="lifestyle_books_magazines_audio">Lifestyle - Books, Magazines & Audio (Platform: 4% / Dinamis: 5%)</option>
+                <option value="lifestyle_toys_hobbies">Lifestyle - Toys & Hobbies (Platform: 6% / Dinamis: 6%)</option>
+                <option value="lifestyle_pet_supplies">Lifestyle - Pet Supplies (Platform: 6% / Dinamis: 6%)</option>
+                <option value="lifestyle_collectibles">Lifestyle - Collectibles (Platform: 6% / Dinamis: 6%)</option>
+                <option value="lifestyle_textiles_soft_furnishings">Lifestyle - Textiles & Soft Furnishings (Platform: 4% / Dinamis: 5%)</option>
+                <option value="lifestyle_furniture">Lifestyle - Furniture (Platform: 4% / Dinamis: 5%)</option>
+                <option value="lifestyle_tools_hardware">Lifestyle - Tools & Hardware (Platform: 6% / Dinamis: 5.5%)</option>
+                <option value="lifestyle_home_improvement">Lifestyle - Home Improvement (Platform: 6% / Dinamis: 5.5%)</option>
+                <option value="lifestyle_kitchenware">Lifestyle - Kitchenware (Platform: 6% / Dinamis: 6%)</option>
+                <option value="lifestyle_home_supplies">Lifestyle - Home Supplies (Platform: 6% / Dinamis: 6%)</option>
             </select>
-            <p class="text-sm text-gray-500 mt-2">Pilih kategori utama yang paling sesuai. Tarif biaya didasarkan pada contoh dan perkiraan dari dokumen.</p>
+            <p class="text-sm text-gray-500 mt-2">Biaya Komisi Platform (Biaya Layanan per Produk Terjual) dan Biaya Komisi Dinamis tertera pada label. Persentase ini adalah contoh representatif dari dokumen resmi Tokopedia Official Store. **Selalu merujuk pada dokumen resmi untuk tarif paling akurat.**</p>
         </div>
 
         <div id="tiktok-shop-promo-section" class="input-group">
@@ -343,8 +370,8 @@
 
         // Fungsi untuk membersihkan string Rupiah menjadi angka float
         function cleanRupiah(rupiahString) {
-            // Hapus "Rp ", titik, dan koma (jika ada)
-            let cleaned = rupiahString.replace(/[^0-9]/g, ''); // Hanya tinggalkan digit
+            // Hapus semua karakter non-digit
+            let cleaned = rupiahString.replace(/[^0-9]/g, ''); 
             return parseFloat(cleaned);
         }
 
@@ -376,25 +403,45 @@
         const loadingSpinner = document.getElementById('loading-spinner');
 
         // Tokopedia commission rates (Platform Commission + Dynamic Commission)
-        // These rates are simplified and based on examples/maxima from provided documents.
-        // For full accuracy, users would need to refer to Tokopedia's official seller center.
+        // Platform: "Biaya Layanan" dari PDF Official Store
+        // Dynamic: "Biaya Komisi Dinamis" dari data sebelumnya
         const tokopediaCategoryRates = {
-            'elektronik': { // Representative for Phones & Electronics, Computers, etc. (like Smartphone example)
-                platform: 0.045, // From Smartphone example
-                dynamic: 0.04    // From Smartphone example
-            },
-            'fashion': {    // Representative for various fashion items (like Guitar example)
-                platform: 0.075, // From Guitar example
-                dynamic: 0.06    // From Guitar example
-            },
-            'fmcg': {       // Max dynamic for FMCG (Food & Beverages) is 5%. Assume platform fee is similar for simplification.
-                platform: 0.05,
-                dynamic: 0.05
-            },
-            'gayahidup': {  // Max dynamic for Lifestyle (Toys, Pet Supplies, Kitchenware, Home Supplies) is 6%. Assume platform fee is similar.
-                platform: 0.06,
-                dynamic: 0.06
-            }
+            // Electronics
+            'elektronik_phones_electronics': { platform: 0.04, dynamic: 0.04 }, // 4% for Platform (example Silica Gel Camera), 4% Dynamic
+            'elektronik_household_appliances': { platform: 0.06, dynamic: 0.04 }, // 6% for Platform (example Microphone Camera), 4% Dynamic
+            'elektronik_computers_office': { platform: 0.04, dynamic: 0.04 }, // 4% for Platform, 4% Dynamic
+            'elektronik_automotive_motorcycle': { platform: 0.085, dynamic: 0.055 }, // 8.5% for Platform (example Drone Camera), 5.5% Dynamic
+            'elektronik_virtual_products': { platform: 0.04, dynamic: 0.04 }, // 4% for Platform, 4% Dynamic
+
+            // Fashion (Platform: Menggunakan rate yang lebih tinggi dari marketplace umum karena tidak ada detail spesifik OS di ringkasan PDF)
+            // Dynamic: dari data sebelumnya
+            'fashion_jewelry_accessories': { platform: 0.06, dynamic: 0.04 }, // Platform: 6%, Dynamic: 4%
+            'fashion_shoes': { platform: 0.075, dynamic: 0.05 }, // Platform: 7.5%, Dynamic: 5%
+            'fashion_menswear_underwear': { platform: 0.075, dynamic: 0.05 }, // Platform: 7.5%, Dynamic: 5%
+            'fashion_womenswear_underwear': { platform: 0.075, dynamic: 0.055 }, // Platform: 7.5%, Dynamic: 5.5%
+            'fashion_muslim_fashion': { platform: 0.075, dynamic: 0.055 }, // Platform: 7.5%, Dynamic: 5.5%
+            'fashion_luggage_bags': { platform: 0.075, dynamic: 0.055 }, // Platform: 7.5%, Dynamic: 5.5%
+            'fashion_sports_outdoor': { platform: 0.075, dynamic: 0.06 }, // Platform: 7.5%, Dynamic: 6%
+            'fashion_fashion_accessories': { platform: 0.075, dynamic: 0.06 }, // Platform: 7.5%, Dynamic: 6%
+
+            // FMCG (Platform: "Biaya Layanan" berdasarkan contoh PDF Official Store, Dynamic: dari data sebelumnya)
+            'fmcg_kids_fashion': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
+            'fmcg_health': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
+            'fmcg_beauty_personal_care': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
+            'fmcg_baby_maternity': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
+            'fmcg_food_beverages': { platform: 0.085, dynamic: 0.05 }, // Platform: 8.5% (contoh Meat), Dynamic: 5%
+
+            // Lifestyle (Platform: "Biaya Layanan" berdasarkan contoh PDF Official Store, Dynamic: dari data sebelumnya)
+            'lifestyle_books_magazines_audio': { platform: 0.04, dynamic: 0.05 }, // Platform: 4%, Dynamic: 5%
+            'lifestyle_toys_hobbies': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
+            'lifestyle_pet_supplies': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
+            'lifestyle_collectibles': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
+            'lifestyle_textiles_soft_furnishings': { platform: 0.04, dynamic: 0.05 }, // Platform: 4%, Dynamic: 5%
+            'lifestyle_furniture': { platform: 0.04, dynamic: 0.05 }, // Platform: 4%, Dynamic: 5%
+            'lifestyle_tools_hardware': { platform: 0.06, dynamic: 0.055 }, // Platform: 6%, Dynamic: 5.5%
+            'lifestyle_home_improvement': { platform: 0.06, dynamic: 0.055 }, // Platform: 6%, Dynamic: 5.5%
+            'lifestyle_kitchenware': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
+            'lifestyle_home_supplies': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
         };
         const TOKOPEDIA_MAX_DYNAMIC_FEE_CAP = 40000; // Rp 40.000 for dynamic commission
         const FREE_SHIPPING_SUBSIDY = 5000; // Example fixed subsidy if seller covers free shipping
@@ -522,7 +569,7 @@
                 const rates = tokopediaCategoryRates[category];
 
                 if (rates) {
-                    // Hitung Biaya Komisi Platform
+                    // Hitung Biaya Komisi Platform (Biaya Layanan)
                     platformCommissionFee = priceAfterDiscount * rates.platform;
 
                     // Hitung Biaya Komisi Dinamis
