@@ -197,10 +197,32 @@
                 font-size: 18px;
             }
         }
+        .shopee-link {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .shopee-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f4511e; /* Shopee orange-like */
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(244, 81, 30, 0.3);
+        }
+        .shopee-link a:hover {
+            background-color: #e64a19;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="shopee-link">
+            <a href="shopee.html">Mau Pindah Ke Kalkulator Shopee?</a>
+        </div>
         <h1>Kalkulator Biaya Penjual</h1>
         <p class="info-text">Tokopedia & TikTok Shop <span class="branding-text">by ikiytech</span></p>
 
@@ -322,11 +344,7 @@
         // Fungsi untuk membersihkan string Rupiah menjadi angka float
         function cleanRupiah(rupiahString) {
             // Hapus "Rp ", titik, dan koma (jika ada)
-            let cleaned = rupiahString.replace(/[^,\d]/g, '').replace(/\./g, '');
-            // Jika ada koma, ganti dengan titik untuk parsing float
-            if (cleaned.includes(',')) {
-                cleaned = cleaned.replace(',', '.');
-            }
+            let cleaned = rupiahString.replace(/[^0-9]/g, ''); // Hanya tinggalkan digit
             return parseFloat(cleaned);
         }
 
@@ -384,7 +402,7 @@
         // Event listener untuk input Harga Jual untuk format otomatis
         productPriceInput.addEventListener('input', function(e) {
             let value = e.target.value;
-            // Hapus semua karakter non-digit kecuali jika ada koma desimal (untuk potensi nanti)
+            // Hapus semua karakter non-digit
             value = value.replace(/[^0-9]/g, '');
 
             // Konversi ke angka untuk pemformatan
