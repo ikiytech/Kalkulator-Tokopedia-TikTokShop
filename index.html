@@ -3,653 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Biaya Penjual Tokopedia & TikTok Shop</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Kalkulator Penghasilan Bersih</title>
+    <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Custom font for a clean look */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #e2e8f0; /* Soft gray background */
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
             padding: 20px;
             box-sizing: border-box;
         }
         .container {
             background-color: #ffffff;
-            padding: 40px; /* Increased padding */
-            border-radius: 20px; /* More rounded corners */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Stronger, softer shadow */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
             width: 100%;
-            max-width: 650px; /* Slightly wider */
-            border: 1px solid #cbd5e1; /* Subtle border */
-        }
-        h1 {
-            color: #1a202c; /* Darker text for main title */
-            font-size: 32px; /* Larger title */
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .info-text {
-            font-size: 16px;
-            color: #4a5568; /* Slightly darker gray for info text */
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .branding-text {
-            color: #22c55e; /* Green color for branding */
-            font-weight: 600;
-            margin-top: 5px;
-        }
-        h2 {
-            color: #2d3748; /* Darker gray for section titles */
-            font-size: 24px;
-            font-weight: 600;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #edf2f7; /* Thicker, lighter bottom border */
-            padding-bottom: 10px;
         }
         .input-group label {
             font-weight: 600;
-            color: #2d3748;
+            color: #333;
             margin-bottom: 8px;
             display: block;
-            font-size: 15px;
         }
-        .input-group input,
-        .input-group select {
+        /* Changed input type to text, so we need to style it */
+        .input-group input[type="text"] {
             width: 100%;
-            padding: 14px; /* Increased padding */
-            border: 1px solid #a0aec0; /* Medium gray border */
-            border-radius: 12px; /* More rounded input fields */
-            font-size: 16px;
-            margin-bottom: 20px; /* Increased margin */
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            background-color: #f7fafc; /* Light input background */
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #555;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
         }
-        .input-group input:focus,
-        .input-group select:focus {
+        .input-group input[type="text"]:focus {
             outline: none;
-            border-color: #4299e1; /* Blue for focus */
-            box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.3); /* Softer, wider focus shadow */
-            background-color: #ffffff;
+            border-color: #4f46e5; /* Indigo 600 */
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
         }
-        .btn-calculate {
-            width: 100%;
-            padding: 16px; /* Larger button */
-            background-image: linear-gradient(to right, #ef4444 0%, #dc2626 100%); /* Gradient background */
-            color: #ffffff;
-            border: none;
-            border-radius: 12px; /* Rounded button */
-            font-size: 20px; /* Larger font */
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4); /* Stronger button shadow */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-calculate:hover {
-            background-image: linear-gradient(to right, #dc2626 0%, #b91c1c 100%);
-            transform: translateY(-3px); /* More pronounced lift */
-            box-shadow: 0 12px 25px rgba(239, 68, 68, 0.5);
-        }
-        .btn-calculate:disabled {
-            opacity: 0.7;
+        .input-group input[readonly] {
+            background-color: #eceff1;
             cursor: not-allowed;
-            transform: translateY(0);
-            box-shadow: none;
         }
-
-        .result-section {
-            background-color: #f0fdf4; /* Very light green */
-            border: 1px solid #bbf7d0; /* Light green border */
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
+        /* Placeholder styling for a slightly darker appearance */
+        .input-group input::placeholder {
+            color: #718096; /* Gray 500 for a slightly darker placeholder */
+            opacity: 1; /* Ensure placeholder is not too transparent */
         }
-        .result-section h2 {
-            color: #16a34a; /* Darker green for result title */
-            border-bottom-color: #dcfce7;
-        }
-        .result-item {
+        .result-section p {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px; /* Increased margin */
-            font-size: 17px;
-            color: #2d3748;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
         }
-        .result-item strong {
-            color: #047857; /* Deeper green for labels */
-        }
-        .result-item span {
-            color: #10b981; /* Brighter green for values */
-            font-weight: 600;
-        }
-        .result-item.total {
-            border-top: 2px dashed #6ee7b7; /* Thicker dashed line */
-            padding-top: 15px;
-            margin-top: 20px;
-            font-size: 20px; /* Larger total font */
+        .result-section p:last-child {
+            border-bottom: none;
+            font-size: 1.15rem;
             font-weight: 700;
-            color: #065f46;
+            color: #1a202c; /* Dark text for total */
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
         }
-        .result-item.total span {
-            color: #065f46;
+        .result-section span {
+            color: #4a5568;
+            transition: color 0.3s ease; /* Smooth transition for text color */
+        }
+        .result-section strong {
+            color: #2d3748;
+            transition: color 0.3s ease; /* Smooth transition for text color */
+        }
+        /* Button specific styles and animations */
+        .calculate-button {
+            background-color: #4f46e5; /* Indigo 600 */
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            margin-top: 20px;
+            margin-bottom: 10px; /* Reduced margin to make space for the new button */
+            display: flex; /* Use flexbox for centering content */
+            justify-content: center;
+            align-items: center;
+            gap: 8px; /* Space between text and spinner */
+        }
+        .calculate-button:hover:not(:disabled) { /* Apply hover only if not disabled */
+            background-color: #4338ca; /* Indigo 700 */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        }
+        .calculate-button:active:not(:disabled) { /* Apply active only if not disabled */
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        }
+        .calculate-button:disabled {
+            background-color: #a78bfa; /* Light indigo for disabled state */
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
         }
 
-        #tokopedia-category-section,
-        #tiktok-shop-promo-section,
-        #affiliate-commission-section,
-        #free-shipping-section {
-            display: none; /* Sembunyikan secara default */
+        /* New button style for "Shopee Calculator" */
+        .shopee-button {
+            background-color: #00b050; /* Shopee green */
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 176, 80, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .shopee-button:hover {
+            background-color: #009944; /* Darker green on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 176, 80, 0.4);
+        }
+        .shopee-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 176, 80, 0.2);
         }
 
-        /* Loading Spinner */
-        .loader {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3498db; /* Blue */
+
+        /* Spinner animation */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
             border-radius: 50%;
             width: 20px;
             height: 20px;
-            animation: spin 1s linear infinite;
+            display: none; /* Hidden by default */
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .loading-text {
-            margin-left: 10px;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            .container {
-                padding: 25px;
-                border-radius: 15px;
-            }
-            h1 {
-                font-size: 28px;
-            }
-            h2 {
-                font-size: 22px;
-            }
-            .input-group input,
-            .input-group select,
-            .btn-calculate {
-                padding: 12px;
-                font-size: 17px;
-            }
-            .result-item {
-                font-size: 15px;
-            }
-            .result-item.total {
-                font-size: 18px;
-            }
-        }
-        .shopee-link {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .shopee-link a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #f4511e; /* Shopee orange-like */
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(244, 81, 30, 0.3);
-        }
-        .shopee-link a:hover {
-            background-color: #e64a19;
-            transform: translateY(-2px);
+        .spinner.show {
+            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="shopee-link">
-            <a href="shopee.html">Kalkulator Shopee?</a>
-        </div>
-        <h1>Kalkulator Biaya Penjual</h1>
-        <p class="info-text">Tokopedia & TikTok Shop <span class="branding-text">by ikiytech</span></p>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Kalkulator Penghasilan Bersih</h1>
 
-        <div class="input-group">
-            <label for="platform">Pilih Marketplace:</label>
-            <select id="platform" class="shadow-sm">
-                <option value="tokopedia">Tokopedia</option>
-                <option value="tiktokshop">TikTok Shop</option>
-            </select>
-        </div>
+        <div class="space-y-6 mb-8">
+            <!-- Total Penjualan - Now editable and formatted with dots -->
+            <div class="input-group">
+                <label for="totalSales">Total Penjualan (Rp):</label>
+                <input type="text" id="totalSales" value="0" placeholder="Contoh: 75.000"
+                       class="rounded-lg px-4 py-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
+                       oninput="formatInput(this)">
+            </div>
 
-        <div class="input-group">
-            <label for="product-price">Harga Jual (Rp):</label>
-            <input type="text" id="product-price" value="0" class="shadow-sm">
-        </div>
+            <!-- Ongkos Kirim - Manual Input and formatted with dots -->
+            <div class="input-group">
+                <label for="shippingCost">Ongkos Kirim (Rp):</label>
+                <input type="text" id="shippingCost" value="0" placeholder="Contoh: 18.700"
+                       class="rounded-lg px-4 py-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
+                       oninput="formatInput(this)">
+            </div>
 
-        <div class="input-group">
-            <label for="seller-discount-percentage">Diskon Seller (%):</label>
-            <input type="number" id="seller-discount-percentage" value="0" min="0" max="100" class="shadow-sm">
-        </div>
-
-        <div id="tokopedia-category-section" class="input-group">
-            <h2>Biaya Administrasi & Program Promosi</h2>
-            <label for="tokopedia-category">Kategori Produk Tokopedia:</label>
-            <select id="tokopedia-category" class="shadow-sm">
-                <option value="elektronik_phones_electronics">Elektronik - Phones & Electronics (Platform: 4% / Dinamis: 4%)</option>
-                <option value="elektronik_household_appliances">Elektronik - Household Appliances (Platform: 6% / Dinamis: 4%)</option>
-                <option value="elektronik_computers_office">Elektronik - Computers & Office Equipment (Platform: 4% / Dinamis: 4%)</option>
-                <option value="elektronik_automotive_motorcycle">Elektronik - Automotive & Motorcycle (Platform: 8.5% / Dinamis: 5.5%)</option>
-                <option value="elektronik_virtual_products">Elektronik - Virtual Products (Platform: 4% / Dinamis: 4%)</option>
-
-                <option value="fashion_jewelry_accessories">Fashion - Jewelry Accessories & Derivatives (Platform: 6% / Dinamis: 4%)</option>
-                <option value="fashion_shoes">Fashion - Shoes (Platform: 7.5% / Dinamis: 5%)</option>
-                <option value="fashion_menswear_underwear">Fashion - Menswear & Underwear (Platform: 7.5% / Dinamis: 5%)</option>
-                <option value="fashion_womenswear_underwear">Fashion - Womenswear & Underwear (Platform: 7.5% / Dinamis: 5.5%)</option>
-                <option value="fashion_muslim_fashion">Fashion - Muslim Fashion (Platform: 7.5% / Dinamis: 5.5%)</option>
-                <option value="fashion_luggage_bags">Fashion - Luggage & Bags (Platform: 7.5% / Dinamis: 5.5%)</option>
-                <option value="fashion_sports_outdoor">Fashion - Sports & Outdoor (Platform: 7.5% / Dinamis: 6%)</option>
-                <option value="fashion_fashion_accessories">Fashion - Fashion Accessories (Platform: 7.5% / Dinamis: 6%)</option>
-
-                <option value="fmcg_kids_fashion">FMCG - Kids' Fashion (Platform: 4% / Dinamis: 4%)</option>
-                <option value="fmcg_health">FMCG - Health (Platform: 4% / Dinamis: 4%)</option>
-                <option value="fmcg_beauty_personal_care">FMCG - Beauty & Personal Care (Platform: 4% / Dinamis: 4%)</option>
-                <option value="fmcg_baby_maternity">FMCG - Baby & Maternity (Platform: 4% / Dinamis: 4%)</option>
-                <option value="fmcg_food_beverages">FMCG - Food & Beverages (Platform: 8.5% / Dinamis: 5%)</option>
-
-                <option value="lifestyle_books_magazines_audio">Lifestyle - Books, Magazines & Audio (Platform: 4% / Dinamis: 5%)</option>
-                <option value="lifestyle_toys_hobbies">Lifestyle - Toys & Hobbies (Platform: 6% / Dinamis: 6%)</option>
-                <option value="lifestyle_pet_supplies">Lifestyle - Pet Supplies (Platform: 6% / Dinamis: 6%)</option>
-                <option value="lifestyle_collectibles">Lifestyle - Collectibles (Platform: 6% / Dinamis: 6%)</option>
-                <option value="lifestyle_textiles_soft_furnishings">Lifestyle - Textiles & Soft Furnishings (Platform: 4% / Dinamis: 5%)</option>
-                <option value="lifestyle_furniture">Lifestyle - Furniture (Platform: 4% / Dinamis: 5%)</option>
-                <option value="lifestyle_tools_hardware">Lifestyle - Tools & Hardware (Platform: 6% / Dinamis: 5.5%)</option>
-                <option value="lifestyle_home_improvement">Lifestyle - Home Improvement (Platform: 6% / Dinamis: 5.5%)</option>
-                <option value="lifestyle_kitchenware">Lifestyle - Kitchenware (Platform: 6% / Dinamis: 6%)</option>
-                <option value="lifestyle_home_supplies">Lifestyle - Home Supplies (Platform: 6% / Dinamis: 6%)</option>
-            </select>
-            <p class="text-sm text-gray-500 mt-2">Biaya Komisi Platform (Biaya Layanan per Produk Terjual) dan Biaya Komisi Dinamis tertera pada label. Persentase ini adalah contoh representatif dari dokumen resmi Tokopedia Official Store. **Selalu merujuk pada dokumen resmi untuk tarif paling akurat.**</p>
+            <!-- Diskon Promo Seller - Manual Input and formatted with dots -->
+            <div class="input-group">
+                <label for="sellerDiscount">Diskon Promo Seller (Rp):</label>
+                <input type="text" id="sellerDiscount" value="0" placeholder="Contoh: 5.000"
+                       class="rounded-lg px-4 py-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
+                       oninput="formatInput(this)">
+            </div>
         </div>
 
-        <div id="tiktok-shop-promo-section" class="input-group">
-            <h2>Biaya Tambahan TikTok Shop</h2>
-            <label for="tiktok-category">Kategori Produk TikTok Shop (untuk Komisi):</label>
-            <select id="tiktok-category" class="shadow-sm">
-                <option value="umum">Umum (6%)</option>
-                <option value="perhiasan">Perhiasan (5%)</option>
-            </select>
-            <label for="use-fbt">Gunakan Fulfilled by TikTok (FBT)?</label>
-            <select id="use-fbt" class="shadow-sm">
-                <option value="no">Tidak</option>
-                <option value="yes">Ya (Perkiraan biaya: $3.58 per item)</option>
-            </select>
-            <p class="text-sm text-gray-500 mt-2">Biaya transaksi 3.5%-3.78% dan biaya penarikan $0.05 akan otomatis dihitung.</p>
-        </div>
-
-        <div class="input-group">
-            <label for="use-affiliate">Menggunakan Afiliasi?</label>
-            <select id="use-affiliate" class="shadow-sm">
-                <option value="no">Tidak</option>
-                <option value="yes">Ya</option>
-            </select>
-        </div>
-
-        <div id="affiliate-commission-section" class="input-group">
-            <label for="affiliate-commission-percentage">Komisi Afiliasi (%):</label>
-            <input type="number" id="affiliate-commission-percentage" value="0" min="0" max="100" class="shadow-sm">
-        </div>
-
-        <div class="input-group">
-            <label for="free-shipping">Gratis Ongkir (ditanggung seller)?</label>
-            <select id="free-shipping" class="shadow-sm">
-                <option value="no">Tidak</option>
-                <option value="yes">Ya</option>
-            </select>
-            <p class="text-sm text-gray-500 mt-2">Jika Ya, perkiraan subsidi ongkir Rp 5.000 akan ditambahkan ke biaya.</p>
-        </div>
-
-
-        <button class="btn-calculate" onclick="calculateFees()">
-            <span id="button-text">Hitung</span>
-            <span id="loading-spinner" class="loader hidden"></span>
+        <!-- Tombol Hitung -->
+        <button id="calculateButton" onclick="calculateNet()" class="calculate-button">
+            <span id="buttonText">Hitung</span>
+            <div id="spinner" class="spinner"></div>
         </button>
 
-        <div id="result" class="result-section hidden">
-            <h2>Ringkasan Biaya</h2>
-            <div id="platform-commission-item" class="result-item">
-                <span>Biaya Komisi Platform:</span> <span id="platform-commission-fee">Rp 0</span>
-            </div>
-            <div id="dynamic-commission-item" class="result-item hidden">
-                <span>Biaya Komisi Dinamis:</span> <span id="dynamic-commission-fee">Rp 0</span>
-            </div>
-            <div id="transaction-fee-item" class="result-item hidden">
-                <span>Biaya Transaksi:</span> <span id="transaction-fee">Rp 0</span>
-            </div>
-             <div id="fbt-fee-item" class="result-item hidden">
-                <span>Biaya FBT:</span> <span id="fbt-fee">Rp 0</span>
-            </div>
-            <div id="affiliate-fee-item" class="result-item hidden">
-                <span>Biaya Afiliasi:</span> <span id="affiliate-fee">Rp 0</span>
-            </div>
-            <div id="shipping-subsidy-item" class="result-item hidden">
-                <span>Subsidi Ongkir:</span> <span id="shipping-subsidy-fee">Rp 0</span>
-            </div>
-            <div id="withdrawal-fee-item" class="result-item hidden">
-                <span>Biaya Penarikan:</span> <span id="withdrawal-fee">Rp 0</span>
-            </div>
-            <div class="result-item total">
-                <span>Pendapatan Bersih:</span> <span id="net-income">Rp 0</span>
-            </div>
+        <!-- Tombol "ke kalkulator shopee?" -->
+        <button onclick="alert('https://ikiytech.github.io/Kalkulator-Tokopedia-TikTokShop/shopee.html')" class="shopee-button">
+            ke kalkulator shopee?
+        </button>
+
+        <h2 class="text-2xl font-semibold text-gray-700 mb-6 border-b pb-3">Rincian Penghasilan</h2>
+
+        <div class="result-section text-gray-600">
+            <p>Biaya Layanan (4.25%): <span id="serviceFeeDisplay" class="font-medium text-red-600"></span></p>
+            <p>Diskon Promo Seller: <span id="sellerDiscountDisplay" class="font-medium text-red-600"></span></p>
+            <p>Subsidi dari Tokopedia: <span id="tokopediaSubsidyDisplay" class="font-medium text-green-600"></span></p>
+            <p>Total Diterima Bersih: <strong id="netReceivedDisplay" class="text-indigo-700"></strong></p>
         </div>
     </div>
 
     <script>
-        // Fungsi untuk format angka menjadi mata uang Rupiah
-        function formatRupiah(angka) {
-            // Memastikan angka adalah numerik dan tidak NaN, serta membulatkan ke 0 desimal
-            const num = Math.round(parseFloat(angka));
-            if (isNaN(num)) return 'Rp 0';
+        // Formatter for Rupiah currency output (e.g., Rp71.812)
+        const rupiahFormatter = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
 
-            var reverse = Math.abs(num).toString().split('').reverse().join(''),
-                ribuan = reverse.match(/\d{1,3}/g);
-            ribuan = ribuan.join('.').split('').reverse().join('');
-            return (num < 0 ? '-' : '') + 'Rp ' + ribuan;
+        // Formatter for input fields (e.g., 75.000)
+        const inputNumberFormatter = new Intl.NumberFormat('id-ID', {
+            useGrouping: true,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+
+        // Function to format input value with thousands separators as user types
+        function formatInput(inputElement) {
+            // Remove all non-digit characters from the input value
+            let rawValue = inputElement.value.replace(/\D/g, '');
+
+            // Convert to number, then format with thousands separators
+            if (rawValue) {
+                inputElement.value = inputNumberFormatter.format(parseFloat(rawValue));
+            } else {
+                inputElement.value = ''; // Keep empty if no digits
+            }
         }
 
-        // Fungsi untuk membersihkan string Rupiah menjadi angka float
-        function cleanRupiah(rupiahString) {
-            // Hapus semua karakter non-digit
-            let cleaned = rupiahString.replace(/[^0-9]/g, ''); 
-            return parseFloat(cleaned);
-        }
+        // Function to calculate net income
+        function calculateNet() {
+            const calculateButton = document.getElementById('calculateButton');
+            const buttonText = document.getElementById('buttonText');
+            const spinner = document.getElementById('spinner');
 
-        // Fungsi untuk mengonversi USD ke IDR (nilai tukar perkiraan)
-        const USD_TO_IDR_RATE = 16500; // Contoh nilai tukar 1 USD = 16500 IDR
-
-        // Mendapatkan elemen-elemen DOM yang diperlukan
-        const platformSelect = document.getElementById('platform');
-        const tokopediaCategorySection = document.getElementById('tokopedia-category-section');
-        const tiktokShopPromoSection = document.getElementById('tiktok-shop-promo-section');
-        const resultSection = document.getElementById('result');
-
-        const productPriceInput = document.getElementById('product-price'); // Dapatkan input Harga Jual
-        const platformCommissionFeeElement = document.getElementById('platform-commission-fee');
-        const dynamicCommissionFeeElement = document.getElementById('dynamic-commission-fee');
-        const transactionFeeElement = document.getElementById('transaction-fee');
-        const fbtFeeElement = document.getElementById('fbt-fee');
-        const affiliateFeeElement = document.getElementById('affiliate-fee');
-        const shippingSubsidyFeeElement = document.getElementById('shipping-subsidy-fee');
-        const withdrawalFeeElement = document.getElementById('withdrawal-fee');
-        const netIncomeElement = document.getElementById('net-income');
-
-        const useAffiliateSelect = document.getElementById('use-affiliate');
-        const affiliateCommissionSection = document.getElementById('affiliate-commission-section');
-        const freeShippingSelect = document.getElementById('free-shipping');
-
-        const calculateButton = document.querySelector('.btn-calculate');
-        const buttonText = document.getElementById('button-text');
-        const loadingSpinner = document.getElementById('loading-spinner');
-
-        // Tokopedia commission rates (Platform Commission + Dynamic Commission)
-        // Platform: "Biaya Layanan" dari PDF Official Store
-        // Dynamic: "Biaya Komisi Dinamis" dari data sebelumnya
-        const tokopediaCategoryRates = {
-            // Electronics
-            'elektronik_phones_electronics': { platform: 0.04, dynamic: 0.04 }, // 4% for Platform (example Silica Gel Camera), 4% Dynamic
-            'elektronik_household_appliances': { platform: 0.06, dynamic: 0.04 }, // 6% for Platform (example Microphone Camera), 4% Dynamic
-            'elektronik_computers_office': { platform: 0.04, dynamic: 0.04 }, // 4% for Platform, 4% Dynamic
-            'elektronik_automotive_motorcycle': { platform: 0.085, dynamic: 0.055 }, // 8.5% for Platform (example Drone Camera), 5.5% Dynamic
-            'elektronik_virtual_products': { platform: 0.04, dynamic: 0.04 }, // 4% for Platform, 4% Dynamic
-
-            // Fashion (Platform: Menggunakan rate yang lebih tinggi dari marketplace umum karena tidak ada detail spesifik OS di ringkasan PDF)
-            // Dynamic: dari data sebelumnya
-            'fashion_jewelry_accessories': { platform: 0.06, dynamic: 0.04 }, // Platform: 6%, Dynamic: 4%
-            'fashion_shoes': { platform: 0.075, dynamic: 0.05 }, // Platform: 7.5%, Dynamic: 5%
-            'fashion_menswear_underwear': { platform: 0.075, dynamic: 0.05 }, // Platform: 7.5%, Dynamic: 5%
-            'fashion_womenswear_underwear': { platform: 0.075, dynamic: 0.055 }, // Platform: 7.5%, Dynamic: 5.5%
-            'fashion_muslim_fashion': { platform: 0.075, dynamic: 0.055 }, // Platform: 7.5%, Dynamic: 5.5%
-            'fashion_luggage_bags': { platform: 0.075, dynamic: 0.055 }, // Platform: 7.5%, Dynamic: 5.5%
-            'fashion_sports_outdoor': { platform: 0.075, dynamic: 0.06 }, // Platform: 7.5%, Dynamic: 6%
-            'fashion_fashion_accessories': { platform: 0.075, dynamic: 0.06 }, // Platform: 7.5%, Dynamic: 6%
-
-            // FMCG (Platform: "Biaya Layanan" berdasarkan contoh PDF Official Store, Dynamic: dari data sebelumnya)
-            'fmcg_kids_fashion': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
-            'fmcg_health': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
-            'fmcg_beauty_personal_care': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
-            'fmcg_baby_maternity': { platform: 0.04, dynamic: 0.04 }, // Platform: 4%, Dynamic: 4%
-            'fmcg_food_beverages': { platform: 0.085, dynamic: 0.05 }, // Platform: 8.5% (contoh Meat), Dynamic: 5%
-
-            // Lifestyle (Platform: "Biaya Layanan" berdasarkan contoh PDF Official Store, Dynamic: dari data sebelumnya)
-            'lifestyle_books_magazines_audio': { platform: 0.04, dynamic: 0.05 }, // Platform: 4%, Dynamic: 5%
-            'lifestyle_toys_hobbies': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
-            'lifestyle_pet_supplies': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
-            'lifestyle_collectibles': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
-            'lifestyle_textiles_soft_furnishings': { platform: 0.04, dynamic: 0.05 }, // Platform: 4%, Dynamic: 5%
-            'lifestyle_furniture': { platform: 0.04, dynamic: 0.05 }, // Platform: 4%, Dynamic: 5%
-            'lifestyle_tools_hardware': { platform: 0.06, dynamic: 0.055 }, // Platform: 6%, Dynamic: 5.5%
-            'lifestyle_home_improvement': { platform: 0.06, dynamic: 0.055 }, // Platform: 6%, Dynamic: 5.5%
-            'lifestyle_kitchenware': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
-            'lifestyle_home_supplies': { platform: 0.06, dynamic: 0.06 }, // Platform: 6%, Dynamic: 6%
-        };
-        const TOKOPEDIA_MAX_DYNAMIC_FEE_CAP = 40000; // Rp 40.000 for dynamic commission
-        const FREE_SHIPPING_SUBSIDY = 5000; // Example fixed subsidy if seller covers free shipping
-
-        // Event listener untuk input Harga Jual untuk format otomatis
-        productPriceInput.addEventListener('input', function(e) {
-            let value = e.target.value;
-            // Hapus semua karakter non-digit
-            value = value.replace(/[^0-9]/g, '');
-
-            // Konversi ke angka untuk pemformatan
-            let numValue = parseInt(value, 10);
-            if (isNaN(numValue)) {
-                numValue = 0;
-            }
-
-            // Format ke Rupiah
-            e.target.value = formatRupiah(numValue).replace('Rp ', ''); // Hapus 'Rp ' sementara untuk input field
-        });
-
-        // Event listener untuk perubahan platform
-        platformSelect.addEventListener('change', function() {
-            if (platformSelect.value === 'tokopedia') {
-                tokopediaCategorySection.style.display = 'block';
-                tiktokShopPromoSection.style.display = 'none';
-                // Tampilkan item biaya Tokopedia (Platform dan Dinamis)
-                document.getElementById('platform-commission-item').classList.remove('hidden');
-                document.getElementById('dynamic-commission-item').classList.remove('hidden');
-                // Sembunyikan item biaya TikTok Shop
-                document.getElementById('transaction-fee-item').classList.add('hidden');
-                document.getElementById('fbt-fee-item').classList.add('hidden');
-                document.getElementById('withdrawal-fee-item').classList.add('hidden');
-            } else { // tiktokshop
-                tokopediaCategorySection.style.display = 'none';
-                tiktokShopPromoSection.style.display = 'block';
-                // Sembunyikan item biaya Tokopedia
-                document.getElementById('platform-commission-item').classList.add('hidden');
-                document.getElementById('dynamic-commission-item').classList.add('hidden');
-                // Tampilkan item biaya TikTok Shop
-                document.getElementById('transaction-fee-item').classList.remove('hidden');
-                document.getElementById('fbt-fee-item').classList.remove('hidden');
-                document.getElementById('withdrawal-fee-item').classList.remove('hidden');
-            }
-            resultSection.classList.add('hidden'); // Sembunyikan hasil saat platform berubah
-        });
-
-        // Event listener untuk perubahan "Menggunakan Afiliasi?"
-        useAffiliateSelect.addEventListener('change', function() {
-            if (useAffiliateSelect.value === 'yes') {
-                affiliateCommissionSection.style.display = 'block';
-                document.getElementById('affiliate-fee-item').classList.remove('hidden');
-            } else {
-                affiliateCommissionSection.style.display = 'none';
-                document.getElementById('affiliate-fee-item').classList.add('hidden');
-            }
-            resultSection.classList.add('hidden');
-        });
-
-        // Event listener untuk perubahan "Gratis Ongkir?"
-        freeShippingSelect.addEventListener('change', function() {
-            if (freeShippingSelect.value === 'yes') {
-                document.getElementById('shipping-subsidy-item').classList.remove('hidden');
-            } else {
-                document.getElementById('shipping-subsidy-item').classList.add('hidden');
-            }
-            resultSection.classList.add('hidden');
-        });
-
-        // Panggil saat halaman pertama kali dimuat untuk mengatur tampilan awal
-        document.addEventListener('DOMContentLoaded', (event) => {
-            platformSelect.dispatchEvent(new Event('change')); // Memicu event change untuk menampilkan Tokopedia secara default
-            useAffiliateSelect.dispatchEvent(new Event('change')); // Memicu event change untuk menampilkan affiliate section secara default
-            freeShippingSelect.dispatchEvent(new Event('change')); // Memicu event change untuk menampilkan free shipping section secara default
-            // Atur nilai awal Harga Jual ke Rp 0 dan format
-            productPriceInput.value = formatRupiah(0).replace('Rp ', '');
-        });
-
-
-        // Fungsi utama untuk menghitung biaya
-        async function calculateFees() { // Added async keyword for future async operations (like simulated loading)
-            // Show loading spinner and disable button
-            buttonText.classList.add('hidden');
-            loadingSpinner.classList.remove('hidden');
+            // Show loading animation and disable button
+            buttonText.style.display = 'none';
+            spinner.classList.add('show');
             calculateButton.disabled = true;
-            resultSection.classList.add('hidden'); // Hide results during calculation
 
-            // Simulate a delay for calculation (e.g., fetching data from server)
-            await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+            // Simulate a short delay for the loading animation
+            setTimeout(() => {
+                // Get input values and clean them (remove dots) before parsing
+                const totalSalesString = document.getElementById('totalSales').value;
+                const shippingCostString = document.getElementById('shippingCost').value;
+                const sellerDiscountString = document.getElementById('sellerDiscount').value;
 
-            const platform = platformSelect.value;
-            // Gunakan cleanRupiah untuk mendapatkan nilai numerik dari input Harga Jual
-            const productPrice = cleanRupiah(productPriceInput.value);
-            const sellerDiscountPercentage = parseFloat(document.getElementById('seller-discount-percentage').value);
-            const useAffiliate = document.getElementById('use-affiliate').value;
-            const freeShipping = document.getElementById('free-shipping').value;
+                // Remove dots from the string and parse as float
+                const totalSales = parseFloat(totalSalesString.replace(/\./g, '') || 0);
+                const shippingCost = parseFloat(shippingCostString.replace(/\./g, '') || 0);
+                const sellerDiscount = parseFloat(sellerDiscountString.replace(/\./g, '') || 0);
 
-            // Validasi input
-            if (isNaN(productPrice) || productPrice < 0) {
-                console.error('Mohon masukkan Harga Jual yang valid.');
-                resetButtonState();
-                return;
-            }
-            if (isNaN(sellerDiscountPercentage) || sellerDiscountPercentage < 0 || sellerDiscountPercentage > 100) {
-                console.error('Mohon masukkan Diskon Seller (%) yang valid (0-100).');
-                resetButtonState();
-                return;
-            }
+                // Define constants
+                const serviceFeeRate = 0.0425; // 4.25%
 
-            const sellerDiscountAmount = (productPrice * sellerDiscountPercentage) / 100;
-            const priceAfterDiscount = productPrice - sellerDiscountAmount;
-            
-            let totalFees = 0;
+                // Calculate Biaya Layanan (Service Fee)
+                const serviceFee = totalSales * serviceFeeRate;
 
-            let platformCommissionFee = 0;
-            let dynamicCommissionFee = 0;
-            let transactionFee = 0;
-            let fbtFee = 0;
-            let affiliateFee = 0;
-            let shippingSubsidyFee = 0;
-            let withdrawalFee = 0;
-            let netIncome = 0;
+                // Calculate Subsidi dari Tokopedia (Subsidy from Tokopedia)
+                const tokopediaSubsidy = sellerDiscount;
 
-            if (platform === 'tokopedia') {
-                const category = document.getElementById('tokopedia-category').value;
-                const rates = tokopediaCategoryRates[category];
+                // Calculate the net amount received
+                const netReceived = totalSales - serviceFee - sellerDiscount + tokopediaSubsidy;
 
-                if (rates) {
-                    // Hitung Biaya Komisi Platform (Biaya Layanan)
-                    platformCommissionFee = priceAfterDiscount * rates.platform;
+                // Update the display elements with calculated values using rupiahFormatter
+                document.getElementById('serviceFeeDisplay').textContent = rupiahFormatter.format(serviceFee);
+                document.getElementById('sellerDiscountDisplay').textContent = rupiahFormatter.format(sellerDiscount);
+                document.getElementById('tokopediaSubsidyDisplay').textContent = rupiahFormatter.format(tokopediaSubsidy);
+                document.getElementById('netReceivedDisplay').textContent = rupiahFormatter.format(netReceived);
 
-                    // Hitung Biaya Komisi Dinamis
-                    let dynamicCommissionFeeCalculated = priceAfterDiscount * rates.dynamic;
-                    dynamicCommissionFee = Math.min(dynamicCommissionFeeCalculated, TOKOPEDIA_MAX_DYNAMIC_FEE_CAP);
-                }
-
-                totalFees = platformCommissionFee + dynamicCommissionFee;
-
-            } else { // tiktokshop
-                const tiktokCategory = document.getElementById('tiktok-category').value;
-                const useFBT = document.getElementById('use-fbt').value;
-
-                let commissionPercentage = 0;
-                // Menentukan persentase komisi TikTok Shop
-                if (tiktokCategory === 'umum') {
-                    commissionPercentage = 0.06; // 6% untuk sebagian besar produk
-                } else {
-                    commissionPercentage = 0.05; // 5% untuk perhiasan
-                }
-                platformCommissionFee = priceAfterDiscount * commissionPercentage; // Ini adalah biaya komisi TikTok (referral fee)
-
-                // Biaya Transaksi TikTok Shop (sekitar 3.5% - 3.78%)
-                // Menggunakan 3.78% sebagai simulasi
-                transactionFee = (productPrice - sellerDiscountAmount) * 0.0378;
-
-                // Biaya FBT (jika digunakan)
-                if (useFBT === 'yes') {
-                    fbtFee = 3.58 * USD_TO_IDR_RATE; // Konversi dari USD ke IDR
-                }
-
-                // Biaya Penarikan TikTok Shop (perkiraan $0.05)
-                withdrawalFee = 0.05 * USD_TO_IDR_RATE; // Konversi dari USD ke IDR
-
-                totalFees = platformCommissionFee + transactionFee + fbtFee + withdrawalFee;
-            }
-
-            // Tambahkan biaya afiliasi jika digunakan
-            if (useAffiliate === 'yes') {
-                const affiliateCommissionPercentage = parseFloat(document.getElementById('affiliate-commission-percentage').value);
-                if (isNaN(affiliateCommissionPercentage) || affiliateCommissionPercentage < 0 || affiliateCommissionPercentage > 100) {
-                    console.error('Mohon masukkan Komisi Afiliasi (%) yang valid (0-100).');
-                    resetButtonState();
-                    return;
-                }
-                affiliateFee = productPrice * (affiliateCommissionPercentage / 100); // Affiliate fee based on original product price
-                totalFees += affiliateFee;
-            }
-
-            // Tambahkan biaya subsidi ongkir jika ditanggung seller
-            if (freeShipping === 'yes') {
-                shippingSubsidyFee = FREE_SHIPPING_SUBSIDY;
-                totalFees += shippingSubsidyFee;
-            }
-
-
-            // Hitung pendapatan bersih
-            netIncome = productPrice - sellerDiscountAmount - totalFees;
-
-            // Tampilkan hasil
-            platformCommissionFeeElement.textContent = formatRupiah(platformCommissionFee);
-            dynamicCommissionFeeElement.textContent = formatRupiah(dynamicCommissionFee);
-            transactionFeeElement.textContent = formatRupiah(transactionFee);
-            fbtFeeElement.textContent = formatRupiah(fbtFee);
-            affiliateFeeElement.textContent = formatRupiah(affiliateFee);
-            shippingSubsidyFeeElement.textContent = formatRupiah(shippingSubsidyFee);
-            withdrawalFeeElement.textContent = formatRupiah(withdrawalFee);
-            netIncomeElement.textContent = formatRupiah(netIncome);
-
-            resultSection.classList.remove('hidden');
-
-            // Reset button state
-            resetButtonState();
+                // Hide loading animation and enable button
+                buttonText.style.display = 'block';
+                spinner.classList.remove('show');
+                calculateButton.disabled = false;
+            }, 500); // 500ms delay for demonstration
         }
 
-        function resetButtonState() {
-            buttonText.classList.remove('hidden');
-            loadingSpinner.classList.add('hidden');
-            calculateButton.disabled = false;
-        }
+        // Initial setup when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply initial formatting to default 0 values
+            formatInput(document.getElementById('totalSales'));
+            formatInput(document.getElementById('shippingCost'));
+            formatInput(document.getElementById('sellerDiscount'));
+
+            // Perform initial calculation
+            calculateNet();
+        });
     </script>
 </body>
 </html>
