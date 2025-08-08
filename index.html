@@ -1,309 +1,146 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Penghasilan Bersih</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom font for a clean look */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-        }
-        .input-group label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-            display: block;
-        }
-        /* Changed input type to text, so we need to style it */
-        .input-group input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            color: #555;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
-        }
-        .input-group input[type="text"]:focus {
-            outline: none;
-            border-color: #4f46e5; /* Indigo 600 */
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-        }
-        .input-group input[readonly] {
-            background-color: #eceff1;
-            cursor: not-allowed;
-        }
-        /* Placeholder styling for a slightly darker appearance */
-        .input-group input::placeholder {
-            color: #718096; /* Gray 500 for a slightly darker placeholder */
-            opacity: 1; /* Ensure placeholder is not too transparent */
-        }
-        .result-section p {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px dashed #eee;
-        }
-        .result-section p:last-child {
-            border-bottom: none;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #1a202c; /* Dark text for total */
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #e0e0e0;
-        }
-        .result-section span {
-            color: #4a5568;
-            transition: color 0.3s ease; /* Smooth transition for text color */
-        }
-        .result-section strong {
-            color: #2d3748;
-            transition: color 0.3s ease; /* Smooth transition for text color */
-        }
-        /* Button specific styles and animations */
-        .calculate-button {
-            background-color: #4f46e5; /* Indigo 600 */
-            color: white;
-            font-weight: bold;
-            padding: 12px 24px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            width: 100%;
-            cursor: pointer;
-            border: none;
-            margin-top: 20px;
-            margin-bottom: 10px; /* Reduced margin to make space for the new button */
-            display: flex; /* Use flexbox for centering content */
-            justify-content: center;
-            align-items: center;
-            gap: 8px; /* Space between text and spinner */
-        }
-        .calculate-button:hover:not(:disabled) { /* Apply hover only if not disabled */
-            background-color: #4338ca; /* Indigo 700 */
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
-        }
-        .calculate-button:active:not(:disabled) { /* Apply active only if not disabled */
-            transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
-        }
-        .calculate-button:disabled {
-            background-color: #a78bfa; /* Light indigo for disabled state */
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-
-        /* New button style for "Shopee Calculator" */
-        .shopee-button {
-            background-color: #00b050; /* Shopee green */
-            color: white;
-            font-weight: bold;
-            padding: 12px 24px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 176, 80, 0.3);
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            width: 100%;
-            cursor: pointer;
-            border: none;
-            margin-top: 10px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-        .shopee-button:hover {
-            background-color: #009944; /* Darker green on hover */
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 176, 80, 0.4);
-        }
-        .shopee-button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(0, 176, 80, 0.2);
-        }
-
-
-        /* Spinner animation */
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .spinner {
-            animation: spin 1s linear infinite;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: none; /* Hidden by default */
-        }
-        .spinner.show {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Komisi Tokopedia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #e0f2fe, #f8fafc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 1.25rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+      max-width: 480px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #1e293b;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1.2rem;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.4rem;
+      border-radius: 0.6rem;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-color: #3b82f6;
+    }
+    button {
+      width: 100%;
+      margin-top: 2rem;
+      padding: 0.9rem;
+      background-color: #3b82f6;
+      border: none;
+      border-radius: 0.6rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    .hasil {
+      margin-top: 2rem;
+      padding: 1.2rem;
+      background: #f0fdf4;
+      border-left: 5px solid #10b981;
+      border-radius: 0.75rem;
+      color: #065f46;
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    @media (max-width: 500px) {
+      .container {
+        padding: 1.5rem;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Kalkulator Penghasilan Bersih</h1>
+  <div class="container">
+    <h2>Kalkulator Komisi Tokopedia</h2>
+    
+    <label for="harga">Harga Produk (Rp)</label>
+    <input type="number" id="harga" placeholder="Contoh: 150000" />
 
-        <div class="space-y-6 mb-8">
-            <!-- Total Penjualan - Now editable and formatted with dots -->
-            <div class="input-group">
-                <label for="totalSales">Total Penjualan (Rp):</label>
-                <input type="text" id="totalSales" value="0" placeholder="Contoh: 75.000"
-                       class="rounded-lg px-4 py-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                       oninput="formatInput(this)">
-            </div>
+    <label for="komisiPlatform">Komisi Platform (%)</label>
+    <input type="number" id="komisiPlatform" placeholder="Contoh: 3" />
 
-            <!-- Ongkos Kirim - Manual Input and formatted with dots -->
-            <div class="input-group">
-                <label for="shippingCost">Ongkos Kirim (Rp):</label>
-                <input type="text" id="shippingCost" value="0" placeholder="Contoh: 18.700"
-                       class="rounded-lg px-4 py-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                       oninput="formatInput(this)">
-            </div>
+    <label for="komisiDinamis">Komisi Dinamis (%)</label>
+    <input type="number" id="komisiDinamis" placeholder="Contoh: 1.5" />
 
-            <!-- Diskon Promo Seller - Manual Input and formatted with dots -->
-            <div class="input-group">
-                <label for="sellerDiscount">Diskon Promo Seller (Rp):</label>
-                <input type="text" id="sellerDiscount" value="0" placeholder="Contoh: 5.000"
-                       class="rounded-lg px-4 py-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                       oninput="formatInput(this)">
-            </div>
-        </div>
+    <button onclick="hitungKomisi()">Hitung Komisi</button>
 
-        <!-- Tombol Hitung -->
-        <button id="calculateButton" onclick="calculateNet()" class="calculate-button">
-            <span id="buttonText">Hitung</span>
-            <div id="spinner" class="spinner"></div>
-        </button>
+    <div class="hasil" id="hasil" style="display: none;"></div>
+  </div>
 
-        <!-- Tombol "ke kalkulator shopee?" -->
-        <button onclick="alert('https://ikiytech.github.io/Kalkulator-Tokopedia-TikTokShop/shopee.html')" class="shopee-button">
-            ke kalkulator shopee?
-        </button>
+  <script>
+    function formatRupiah(angka) {
+      return 'Rp' + angka.toLocaleString('id-ID');
+    }
 
-        <h2 class="text-2xl font-semibold text-gray-700 mb-6 border-b pb-3">Rincian Penghasilan</h2>
+    function hitungKomisi() {
+      const harga = parseFloat(document.getElementById("harga").value);
+      const komisiPlatform = parseFloat(document.getElementById("komisiPlatform").value);
+      const komisiDinamis = parseFloat(document.getElementById("komisiDinamis").value);
+      const hasilDiv = document.getElementById("hasil");
 
-        <div class="result-section text-gray-600">
-            <p>Biaya Layanan (4.25%): <span id="serviceFeeDisplay" class="font-medium text-red-600"></span></p>
-            <p>Diskon Promo Seller: <span id="sellerDiscountDisplay" class="font-medium text-red-600"></span></p>
-            <p>Subsidi dari Tokopedia: <span id="tokopediaSubsidyDisplay" class="font-medium text-green-600"></span></p>
-            <p>Total Diterima Bersih: <strong id="netReceivedDisplay" class="text-indigo-700"></strong></p>
-        </div>
-    </div>
+      if (isNaN(harga) || isNaN(komisiPlatform) || isNaN(komisiDinamis)) {
+        hasilDiv.innerText = "⚠️ Mohon isi semua kolom dengan benar.";
+        hasilDiv.style.background = "#fef2f2";
+        hasilDiv.style.borderLeftColor = "#ef4444";
+        hasilDiv.style.color = "#991b1b";
+        hasilDiv.style.display = "block";
+        return;
+      }
 
-    <script>
-        // Formatter for Rupiah currency output (e.g., Rp71.812)
-        const rupiahFormatter = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        });
+      const totalKomisiPersen = komisiPlatform + komisiDinamis;
+      const totalKomisiRp = harga * totalKomisiPersen / 100;
+      const hasilBersih = harga - totalKomisiRp;
 
-        // Formatter for input fields (e.g., 75.000)
-        const inputNumberFormatter = new Intl.NumberFormat('id-ID', {
-            useGrouping: true,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        });
-
-        // Function to format input value with thousands separators as user types
-        function formatInput(inputElement) {
-            // Remove all non-digit characters from the input value
-            let rawValue = inputElement.value.replace(/\D/g, '');
-
-            // Convert to number, then format with thousands separators
-            if (rawValue) {
-                inputElement.value = inputNumberFormatter.format(parseFloat(rawValue));
-            } else {
-                inputElement.value = ''; // Keep empty if no digits
-            }
-        }
-
-        // Function to calculate net income
-        function calculateNet() {
-            const calculateButton = document.getElementById('calculateButton');
-            const buttonText = document.getElementById('buttonText');
-            const spinner = document.getElementById('spinner');
-
-            // Show loading animation and disable button
-            buttonText.style.display = 'none';
-            spinner.classList.add('show');
-            calculateButton.disabled = true;
-
-            // Simulate a short delay for the loading animation
-            setTimeout(() => {
-                // Get input values and clean them (remove dots) before parsing
-                const totalSalesString = document.getElementById('totalSales').value;
-                const shippingCostString = document.getElementById('shippingCost').value;
-                const sellerDiscountString = document.getElementById('sellerDiscount').value;
-
-                // Remove dots from the string and parse as float
-                const totalSales = parseFloat(totalSalesString.replace(/\./g, '') || 0);
-                const shippingCost = parseFloat(shippingCostString.replace(/\./g, '') || 0);
-                const sellerDiscount = parseFloat(sellerDiscountString.replace(/\./g, '') || 0);
-
-                // Define constants
-                const serviceFeeRate = 0.0425; // 4.25%
-
-                // Calculate Biaya Layanan (Service Fee)
-                const serviceFee = totalSales * serviceFeeRate;
-
-                // Calculate Subsidi dari Tokopedia (Subsidy from Tokopedia)
-                const tokopediaSubsidy = sellerDiscount;
-
-                // Calculate the net amount received
-                const netReceived = totalSales - serviceFee - sellerDiscount + tokopediaSubsidy;
-
-                // Update the display elements with calculated values using rupiahFormatter
-                document.getElementById('serviceFeeDisplay').textContent = rupiahFormatter.format(serviceFee);
-                document.getElementById('sellerDiscountDisplay').textContent = rupiahFormatter.format(sellerDiscount);
-                document.getElementById('tokopediaSubsidyDisplay').textContent = rupiahFormatter.format(tokopediaSubsidy);
-                document.getElementById('netReceivedDisplay').textContent = rupiahFormatter.format(netReceived);
-
-                // Hide loading animation and enable button
-                buttonText.style.display = 'block';
-                spinner.classList.remove('show');
-                calculateButton.disabled = false;
-            }, 500); // 500ms delay for demonstration
-        }
-
-        // Initial setup when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            // Apply initial formatting to default 0 values
-            formatInput(document.getElementById('totalSales'));
-            formatInput(document.getElementById('shippingCost'));
-            formatInput(document.getElementById('sellerDiscount'));
-
-            // Perform initial calculation
-            calculateNet();
-        });
-    </script>
+      hasilDiv.innerHTML =
+        `Total Komisi: <strong>${formatRupiah(totalKomisiRp)}</strong><br>
+         Pendapatan Bersih: <strong>${formatRupiah(hasilBersih)}</strong>`;
+      hasilDiv.style.background = "#f0fdf4";
+      hasilDiv.style.borderLeftColor = "#10b981";
+      hasilDiv.style.color = "#065f46";
+      hasilDiv.style.display = "block";
+    }
+  </script>
 </body>
 </html>
